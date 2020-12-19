@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Button } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import styles from "../styledComponents";
 import styled from "styled-components";
-import { CenterContainer, LoginInput, ButtonContainer, TitleHome } from "../styledComponents";
+import { CenterContainer, LoginInput, ButtonContainer, TitleHome, CustomButton, ButtonText } from "../StyledComponents";
 
 export default function Login({ navigation }) {
   return (
@@ -13,8 +12,12 @@ export default function Login({ navigation }) {
       <LoginInput placeholder="Usuário" />
       <LoginInput placeholder="Senha" />
       <ButtonContainer>
-        <Button title="Login" onPress={() => navigation.navigate("Home")} />
-        <Button title="Cadastrar" />
+        <CustomButton onPress={() => navigation.navigate("Home")}>
+          <ButtonText>Login</ButtonText>
+        </CustomButton>
+        <CustomButton>
+          <ButtonText>Cadastrar</ButtonText>
+        </CustomButton>
       </ButtonContainer>
     </CenterContainer>
   );
