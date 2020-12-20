@@ -4,32 +4,34 @@ import { Button, Text } from "react-native";
 import { ButtonContainer, CenterContainer, OptionsText, StartContainer, CustomButton, ButtonText, TitleHome } from "../StyledComponents";
 import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
+import * as mime from "react-native-mime-types";
 
 async function uploadFile() {
   const file = await DocumentPicker.getDocumentAsync({});
-  //console.log(file);
-
   let resultado = null;
 
-  let formData = new FormData();
-  formData.append("file", file);
-  formData.append("data", JSON.stringify(file));
-  console.log("form: ", formData);
+  const formData = new FormData();
+  formData.append("file", {
+    uri: file.uri,
+    type: mime.lookup(file.uri),
+    name: file.name,
+  });
   const config = {
-    headers: { Accept: "application/json", "Content-Type": `multipart/form-data; boundary=${formData._boundary}` },
+    headers: {
+      Accept: "application/json",
+      "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+    },
   };
-
   await axios
-    .post("http://192.168.0.109:3000/uploadFile", file, config)
+    .post("https://storagefiles.herokuapp.com/uploadFile", formData, config)
     .then((res) => {
+      console.log("sucess:", res.data);
       resultado = res.data;
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log("error:", err);
       resultado = null;
     });
-
-  return resultado;
 }
 
 export default function HomeScreen({ navigation }) {

@@ -26,7 +26,7 @@ class DownloadScreenClasse extends React.Component {
     let resultado = null;
 
     await axios
-      .get("http://192.168.0.109:3000/listFiles")
+      .get("https://storagefiles.herokuapp.com/listFiles")
       .then((res) => {
         resultado = res.data;
       })
@@ -42,9 +42,10 @@ class DownloadScreenClasse extends React.Component {
     let resultado = null;
 
     await axios
-      .get("http://192.168.0.109:3000/downloadFile/" + id)
+      .get("https://storagefiles.herokuapp.com/downloadFile/" + id)
       .then((res) => {
         resultado = res.data;
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -57,13 +58,12 @@ class DownloadScreenClasse extends React.Component {
   render() {
     const { route, navigation } = this.props;
 
-    console.log("enq: ", this.state.downloadsList);
     return (
       <Container>
         <StatusBar barStyle={"light-content"} backgroundColor="#5c6bc0" />
         <FlatList
           data={this.state.downloadsList}
-          keyExtractor={(obj) => obj.id}
+          keyExtractor={(obj) => obj._id}
           renderItem={(obj) => {
             const date = new Date(obj.item.createdAt);
             return (
@@ -73,7 +73,7 @@ class DownloadScreenClasse extends React.Component {
                   <Text style={{ color: "black", fontSize: 18, textAlign: "left" }}>Tamanho: {obj.item.size} (Bytes)</Text>
                   <Text style={{ color: "black", fontSize: 15, textAlign: "left" }}> Data de upload: {date.getDate() + "/" + date.getMonth() + "/" + date.getYear()}</Text>
                 </View>
-                <IconButton onPress={() => this.downloadFile(obj.item.id)}>
+                <IconButton onPress={() => this.downloadFile(obj.item._id)}>
                   {/* <ButtonText onPress={() => navigation.navigate("EnqueteScreen", { userId: userId, enqueteId: obj.item.id, tituloEnquete: obj.item.titulo })}>Download</ButtonText> */}
                   <Icon name="download" size={25} color="white" />
                 </IconButton>
