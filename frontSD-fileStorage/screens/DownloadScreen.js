@@ -8,6 +8,7 @@ import * as FileSystem from "expo-file-system";
 import Permissions from "expo-permissions";
 import * as Sharing from "expo-sharing";
 import { Buffer } from "buffer";
+import * as WebBrowser from "expo-web-browser";
 
 class DownloadScreenClasse extends React.Component {
   state: {
@@ -69,13 +70,13 @@ class DownloadScreenClasse extends React.Component {
     //     resultado = null;
     //   });
 
-    FileSystem.downloadAsync(`https://storagefiles.herokuapp.com/downloadFile/${id}`, FileSystem.documentDirectory)
+    FileSystem.downloadAsync(`https://storagefiles.herokuapp.com/downloadFile/${id}`, FileSystem.documentDirectory + name, {})
       .then(async ({ uri }) => {
-        console.log(uri);
+        console.log(uri + "/" + name);
         // console.log(uri + "/" + name);
         // const dir = uri.slice(0, uri.indexOf("%2540"));
         // console.log(dir + name);
-        await Sharing.shareAsync(uri);
+        await Sharing.shareAsync(uri + "/" + name);
       })
       .catch((err) => {
         console.log(err);
