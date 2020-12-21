@@ -45,7 +45,6 @@ class DownloadScreenClasse extends React.Component {
 
   async downloadFile(id, name) {
     let resultado = null;
-    console.log("id: ", id);
 
     const headers = {
       "Content-Type": "text/html",
@@ -70,13 +69,17 @@ class DownloadScreenClasse extends React.Component {
     //     resultado = null;
     //   });
 
-    FileSystem.downloadAsync(`https://storagefiles.herokuapp.com/downloadFile/${id}`, FileSystem.documentDirectory + name, {})
+    // const fileUri = FileSystem.documentDirectory + name;
+    // const url = "https://blog.enem.com.br/wp-content/uploads/2020/02/img-materia-r7-espaco.jpg";
+
+    // let downloadObject = FileSystem.createDownloadResumable(url, fileUri);
+    // let response = await downloadObject.downloadAsync().then(async ({ uri }) => {
+    //   await Sharing.shareAsync(uri + name);
+    // });
+
+    await FileSystem.downloadAsync(`https://storagefiles.herokuapp.com/downloadFile/${id}`, FileSystem.documentDirectory + name)
       .then(async ({ uri }) => {
-        console.log(uri + "/" + name);
-        // console.log(uri + "/" + name);
-        // const dir = uri.slice(0, uri.indexOf("%2540"));
-        // console.log(dir + name);
-        await Sharing.shareAsync(uri + "/" + name);
+        await Sharing.shareAsync(uri);
       })
       .catch((err) => {
         console.log(err);
