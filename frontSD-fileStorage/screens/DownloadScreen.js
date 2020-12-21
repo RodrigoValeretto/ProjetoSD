@@ -52,31 +52,6 @@ class DownloadScreenClasse extends React.Component {
       "Accept-Encoding": "gzip, deflate, br",
     };
 
-    // await axios
-    //   .get(`https://storagefiles.herokuapp.com/downloadFile/${id}`, { headers, responseType: "arraybuffer" })
-    //   .then(async (res) => {
-    //     resultado = Buffer.from(res.data, "base64");
-    //     resultado = resultado.toString("base64");
-
-    //     const fileUri = FileSystem.documentDirectory;
-    //     console.log(fileUri);
-    //     await FileSystem.writeAsStringAsync(fileUri, resultado, { encoding: FileSystem.EncodingType.Base64 });
-    //     await Sharing.shareAsync(fileUri + `${encodeURI(name)}`);
-    //     //resultado = res.data;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     resultado = null;
-    //   });
-
-    // const fileUri = FileSystem.documentDirectory + name;
-    // const url = "https://blog.enem.com.br/wp-content/uploads/2020/02/img-materia-r7-espaco.jpg";
-
-    // let downloadObject = FileSystem.createDownloadResumable(url, fileUri);
-    // let response = await downloadObject.downloadAsync().then(async ({ uri }) => {
-    //   await Sharing.shareAsync(uri + name);
-    // });
-
     await FileSystem.downloadAsync(`https://storagefiles.herokuapp.com/downloadFile/${id}`, FileSystem.documentDirectory + name)
       .then(async ({ uri }) => {
         await Sharing.shareAsync(uri);
